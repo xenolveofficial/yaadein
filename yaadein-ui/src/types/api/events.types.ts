@@ -17,6 +17,8 @@ export interface Event {
   guestCount: number;
   expiresAt: string;
   createdAt: string;
+  enableFaceSearch?: boolean;
+  shareUrl?: string;
 }
 
 export interface CreateEventPayload {

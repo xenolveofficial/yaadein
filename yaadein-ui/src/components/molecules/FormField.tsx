@@ -1,20 +1,20 @@
 "use client"
 
 import * as React from "react"
-import { Controller, type Control } from "react-hook-form"
+import { Controller, type Control, type FieldValues, type Path } from "react-hook-form"
 import { Input } from "@/components/atoms/Input"
 import { cn } from "@/lib/utils"
 
-export interface FormFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  name: string
-  control: Control<any>
+export interface FormFieldProps<T extends FieldValues> extends React.InputHTMLAttributes<HTMLInputElement> {
+  name: Path<T>
+  control: Control<T>
   label?: string
   hint?: string
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
 }
 
-export function FormField({
+export function FormField<T extends FieldValues>({
   name,
   control,
   label,
@@ -23,7 +23,7 @@ export function FormField({
   rightIcon,
   required,
   ...props
-}: FormFieldProps) {
+}: FormFieldProps<T>) {
   return (
     <Controller
       name={name}

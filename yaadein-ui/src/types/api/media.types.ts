@@ -1,4 +1,4 @@
-export type MediaStatus = 'uploading' | 'processing' | 'ready' | 'rejected';
+export type MediaStatus = 'uploading' | 'processing' | 'ready' | 'rejected' | 'error';
 export type MediaType = 'photo' | 'video';
 
 export interface Media {

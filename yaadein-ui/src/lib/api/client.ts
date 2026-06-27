@@ -13,6 +13,9 @@ export interface RequestOptions extends RequestInit {
 }
 
 async function getAuthHeader(): Promise<HeadersInit> {
+  if (typeof window === 'undefined') {
+    return {};
+  }
   // Use createBrowserClient to safely access session in browser
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

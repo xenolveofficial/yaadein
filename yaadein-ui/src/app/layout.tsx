@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-
-// Note: Uncomment Toaster once your manually added toaster files are committed/visible in the project.
-// import { Toaster } from "@/components/ui/toaster";
+import { QueryProvider } from "@/components/providers/QueryProvider";
+import { Toaster } from "sonner";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -37,8 +36,10 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col font-body text-text-primary bg-surface-primary antialiased">
-        {children}
-        {/* <Toaster /> */}
+        <QueryProvider>
+          {children}
+          <Toaster position="bottom-center" />
+        </QueryProvider>
       </body>
     </html>
   );

@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils"
 export interface PhotoThumbnailProps {
   src: string
   alt: string
-  status: "uploading" | "processing" | "ready" | "error"
+  status: "uploading" | "processing" | "ready" | "error" | "rejected"
   uploadProgress?: number
   onRemove?: () => void
   selectable?: boolean
@@ -71,7 +71,7 @@ export function PhotoThumbnail({
         </div>
       )}
 
-      {status === "error" && (
+      {(status === "error" || status === "rejected") && (
         <div className="absolute inset-0 bg-error/10 z-10 flex flex-col items-center justify-center text-error">
           <AlertCircle className="h-8 w-8 mb-1" />
           <span className="text-xs font-bold bg-white/80 px-2 py-0.5 rounded-full">Failed</span>
