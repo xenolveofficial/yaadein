@@ -50,13 +50,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isLoading || props.disabled}
         {...props}
       >
-        {isLoading ? (
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        ) : leftIcon ? (
-          <span className="mr-2">{leftIcon}</span>
-        ) : null}
-        <span className="truncate">{children}</span>
-        {!isLoading && rightIcon && <span className="ml-2">{rightIcon}</span>}
+        {asChild ? (
+          // When asChild, Slot needs a single React element child to merge onto.
+          // Pass children directly — icons/loading state are not used in asChild mode.
+          children
+        ) : (
+          <>
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : leftIcon ? (
+              <span className="mr-2">{leftIcon}</span>
+            ) : null}
+            <span className="truncate">{children}</span>
+            {!isLoading && rightIcon && <span className="ml-2">{rightIcon}</span>}
+          </>
+        )}
       </Comp>
     )
   }
