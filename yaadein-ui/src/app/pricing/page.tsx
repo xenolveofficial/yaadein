@@ -13,7 +13,7 @@ import { Card, CardContent } from "@/components/atoms/Card";
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "Pricing — Memora",
+  title: "Pricing — Yaadein",
   description: "Simple pricing for every celebration. One price per event. No monthly fees.",
 };
 
@@ -69,7 +69,7 @@ export default function PricingPage() {
         <section className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#1e1b4b] to-[#4c1d95] text-white p-8 md:p-12 shadow-elevated flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full filter blur-3xl -mr-20 -mt-20 pointer-events-none" />
-            
+
             <div className="flex-1 flex flex-col gap-4 text-center lg:text-left z-10">
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
                 <span className="text-2xl" role="img" aria-label="filing cabinet">🗄️</span>
@@ -81,7 +81,7 @@ export default function PricingPage() {
                 </span>
               </div>
               <p className="font-body text-sm md:text-base text-white/80 max-w-2xl leading-relaxed">
-                Never lose your core celebration memories. Move your photos to ultra-secure, DPDP-compliant cold storage. 
+                Never lose your core celebration memories. Move your photos to ultra-secure, DPDP-compliant cold storage.
                 Keep the gallery link alive for family members to view and download forever.
               </p>
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mt-2">

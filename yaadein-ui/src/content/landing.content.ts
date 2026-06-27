@@ -24,7 +24,7 @@ export const landingContent = {
   },
 
   howItWorks: {
-    sectionLabel: "HOW MEMORA WORKS",
+    sectionLabel: "HOW Yaadein WORKS",
     steps: [
       {
         icon: "QrCode" as const,
@@ -63,11 +63,11 @@ export const landingContent = {
   ],
 
   testimonials: {
-    sectionLabel: "FAMILIES ACROSS INDIA TRUST MEMORA",
+    sectionLabel: "FAMILIES ACROSS INDIA TRUST Yaadein",
     items: [
       {
         quote:
-          "We had 600 guests at our daughter's wedding. Memora collected over 4,000 photos without any fuss. Best decision we made.",
+          "We had 600 guests at our daughter's wedding. Yaadein collected over 4,000 photos without any fuss. Best decision we made.",
         name: "Rekha Nair",
         city: "Kochi",
         role: "Mother of the bride",
@@ -75,7 +75,7 @@ export const landingContent = {
       },
       {
         quote:
-          "My clients now expect Memora at every event. The QR code on the table is a game changer — guests love it.",
+          "My clients now expect Yaadein at every event. The QR code on the table is a game changer — guests love it.",
         name: "Arjun Sharma",
         city: "Delhi",
         role: "Wedding Photographer",
@@ -93,7 +93,7 @@ export const landingContent = {
   },
 
   footer: {
-    logo: "Memora",
+    logo: "Yaadein",
     tagline: "Made with ❤️ for Indian celebrations",
     columns: [
       {
@@ -113,6 +113,6 @@ export const landingContent = {
         links: ["About", "Blog", "Privacy Policy", "Terms of Use"],
       },
     ],
-    copyright: `© ${new Date().getFullYear()} Memora. All rights reserved.`,
+    copyright: `© ${new Date().getFullYear()} Yaadein. All rights reserved.`,
   },
 } as const;

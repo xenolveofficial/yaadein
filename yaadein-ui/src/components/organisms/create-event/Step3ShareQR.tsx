@@ -26,7 +26,7 @@ export function Step3ShareQR({ eventId }: { eventId: string }) {
       const url = canvas.toDataURL("image/png");
       const a = document.createElement("a");
       a.href = url;
-      a.download = `Memora-QR-${eventId}.png`;
+      a.download = `Yaadein-QR-${eventId}.png`;
       a.click();
       toast.success("QR Code downloaded successfully");
     } catch (err) {

@@ -7,12 +7,12 @@ import { TestimonialsSection } from "@/components/organisms/TestimonialsSection"
 import { Footer } from "@/components/organisms/Footer"
 
 export const metadata: Metadata = {
-  title: "Memora — Share Wedding Photos Instantly",
+  title: "Yaadein — Share Wedding Photos Instantly",
   description:
     "QR-based photo sharing for Indian weddings and celebrations. Share a QR code, guests upload from their phones, you get every candid moment organized and searchable.",
   keywords: ["wedding photos", "QR photo sharing", "Indian wedding", "event gallery", "guest upload"],
   openGraph: {
-    title: "Memora — Share Wedding Photos Instantly",
+    title: "Yaadein — Share Wedding Photos Instantly",
     description: "Every guest's photo. One beautiful gallery.",
     type: "website",
   },

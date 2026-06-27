@@ -23,14 +23,14 @@ interface GuestUploadScreenProps {
 
 export function GuestUploadScreen({ event }: GuestUploadScreenProps) {
   const router = useRouter();
-  
+
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
   const [previews, setPreviews] = React.useState<string[]>([]);
-  
+
   const [faceConsent, setFaceConsent] = React.useState(false);
   const [isUploading, setIsUploading] = React.useState(false);
   const [fileIds, setFileIds] = React.useState<string[]>([]);
-  
+
   const { uploads, addFiles, updateProgress, setStatus } = useUploadStore();
 
   const handleFilesSelected = (fileList: FileList) => {
@@ -108,7 +108,7 @@ export function GuestUploadScreen({ event }: GuestUploadScreenProps) {
           </p>
         </div>
         <p className="absolute bottom-4 right-4 text-[10px] text-white/50 tracking-wide uppercase font-bold">
-          Powered by Memora
+          Powered by Yaadein
         </p>
       </div>
 
@@ -141,7 +141,7 @@ export function GuestUploadScreen({ event }: GuestUploadScreenProps) {
             {selectedFiles.map((_, i) => {
               const src = previews[i];
               const uploadState = isUploading && fileIds[i] ? uploads[fileIds[i]] : null;
-              
+
               let status: "uploading" | "processing" | "ready" | "error" | "rejected" = "uploading";
               let progress = 0;
 
@@ -202,10 +202,10 @@ export function GuestUploadScreen({ event }: GuestUploadScreenProps) {
             isLoading={isUploading && !allCompleted}
             className={allCompleted ? "bg-success hover:bg-success" : ""}
           >
-            {allCompleted 
-              ? "All uploaded! View gallery \u2192" 
-              : isUploading 
-                ? `Uploading ${completedCount} of ${selectedFiles.length}...` 
+            {allCompleted
+              ? "All uploaded! View gallery \u2192"
+              : isUploading
+                ? `Uploading ${completedCount} of ${selectedFiles.length}...`
                 : "Upload my photos \u2192"}
           </Button>
           <p className="text-xs text-text-muted text-center font-medium">

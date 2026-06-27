@@ -88,7 +88,7 @@ export function FeatureSection({ className }: FeatureSectionProps) {
         <div className="self-end max-w-[75%] rounded-t-xl rounded-bl-xl bg-[#25D366]/20 border border-[#25D366]/30 p-3">
           <p className="font-body text-sm text-text-primary">📸 Check out your photos from Priya's wedding!</p>
           <div className="mt-2 h-24 w-full rounded-md bg-surface-secondary border border-border flex items-center justify-center">
-            <span className="text-xs text-text-muted font-body">memora.app/priya-wedding-2024</span>
+            <span className="text-xs text-text-muted font-body">Yaadein.app/priya-wedding-2024</span>
           </div>
         </div>
         <div className="self-start max-w-[75%] rounded-t-xl rounded-br-xl bg-surface-primary border border-border p-3">
