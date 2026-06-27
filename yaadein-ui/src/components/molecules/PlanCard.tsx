@@ -10,15 +10,17 @@ import { cn } from "@/lib/utils"
 
 export interface PlanData {
   name: string
-  price: string
+  price: string | number
   priceUnit: string
   photos: string
   videos: string
   retentionDays: string
   features: string[]
-  infraCost: string
+  infraCost: string | number
   isRecommended?: boolean
   color: string
+  storageGB?: number
+  tag?: string | null
 }
 
 export interface PlanCardProps {
@@ -52,7 +54,9 @@ export function PlanCard({ plan, isSelected, onSelect, showInfraCost, className 
             </span>
             <div className="mt-2 flex items-baseline gap-1">
               <span className="font-heading text-4xl font-semibold text-text-primary">
-                {plan.price}
+                {typeof plan.price === 'number'
+                  ? (plan.price === 0 ? "Free" : `₹${plan.price.toLocaleString('en-IN')}`)
+                  : plan.price}
               </span>
               <span className="font-body text-sm text-text-muted">
                 {plan.priceUnit}
@@ -92,7 +96,7 @@ export function PlanCard({ plan, isSelected, onSelect, showInfraCost, className 
 
         {showInfraCost && (
           <p className="text-xs text-text-muted text-center mt-auto">
-            Infra cost ~₹{plan.infraCost}
+            Infra cost ~₹{typeof plan.infraCost === 'number' ? plan.infraCost.toLocaleString('en-IN') : plan.infraCost}
           </p>
         )}
 
