@@ -129,4 +129,49 @@
   html {
     @apply font-sans;
   }
+
+  /* Global focus ring — WCAG 2.1 SC 2.4.7 */
+  *:focus-visible {
+    outline: 2px solid var(--color-brand-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Skip-to-content link for screen reader / keyboard users */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    background: var(--color-brand-primary);
+    color: var(--color-text-inverse);
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    z-index: 9999;
+    text-decoration: none;
+    border-radius: 0 0 0.5rem 0;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
+
+  /* Scrollbar hide utility */
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Respect prefers-reduced-motion at CSS level */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

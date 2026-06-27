@@ -1,6 +1,10 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { CreateEventWizard } from "@/components/organisms/CreateEventWizard";
+import dynamic from "next/dynamic";
+
+const CreateEventWizard = dynamic(() => import("@/components/organisms/CreateEventWizard").then((mod) => mod.CreateEventWizard), {
+  ssr: false,
+});
 
 export const metadata = {
   title: "Create Event | YAADEIN",

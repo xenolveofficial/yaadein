@@ -2,9 +2,9 @@ export const landingContent = {
   nav: {
     logo: "YAADEIN",
     links: [
-      { label: "How it works", href: "#how-it-works" },
-      { label: "Pricing", href: "#pricing" },
-      { label: "For Photographers", href: "#photographers" },
+      { label: "How it works", href: "/#how-it-works" },
+      { label: "Pricing", href: "pricing" },
+      // { label: "For Photographers", href: "#photographers" },
     ],
     cta: "Create Free Event →",
   },

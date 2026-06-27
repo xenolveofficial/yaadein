@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { eventsService } from "@/lib/api/events.service";
 import { mediaService } from "@/lib/api/media.service";
-import { GalleryScreen } from "@/components/organisms/GalleryScreen";
+import dynamic from "next/dynamic";
+
+const GalleryScreen = dynamic(() => import("@/components/organisms/GalleryScreen").then((mod) => mod.GalleryScreen), {
+  ssr: false,
+});
 
 interface PageProps {
   params: Promise<{ slug: string }>;

@@ -3,10 +3,11 @@
 import * as React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  ChevronLeft, Share2, Download, Search, ScanFace, Play, X, ChevronRight, Loader2,
+  ChevronLeft, Share2, Download, Search, ScanFace, Play, X, ChevronRight, Loader2, Camera,
 } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { toast } from "sonner";
@@ -136,60 +137,10 @@ function Lightbox({
   );
 }
 
-// ─── Slideshow ────────────────────────────────────────────────────────────────
-function Slideshow({ media, onClose }: { media: Media[]; onClose: () => void }) {
-  const readyPhotos = media.filter((m) => m.type === "photo" && m.status === "ready");
-  const [index, setIndex] = React.useState(0);
-
-  React.useEffect(() => {
-    if (readyPhotos.length === 0) return;
-    const interval = setInterval(() => {
-      setIndex((i) => (i + 1) % readyPhotos.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [readyPhotos.length]);
-
-  React.useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [onClose]);
-
-  if (readyPhotos.length === 0) return null;
-  const current = readyPhotos[index];
-
-  return (
-    <div className="fixed inset-0 z-[100] bg-black">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={current.id}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8 }}
-          className="absolute inset-0"
-        >
-          <Image
-            src={current.url}
-            alt="Slideshow"
-            fill
-            className="object-cover"
-            unoptimized
-            priority
-          />
-        </motion.div>
-      </AnimatePresence>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/40 text-white hover:bg-black/70 transition-colors"
-        aria-label="Close slideshow"
-      >
-        <X className="h-5 w-5" />
-      </button>
-    </div>
-  );
-}
+// ─── Slideshow Viewer Dynamic Import ──────────────────────────────────────────
+const SlideshowViewer = dynamic(() => import("./SlideshowViewer"), {
+  ssr: false,
+});
 
 // ─── Face Search Dialog ───────────────────────────────────────────────────────
 function FaceSearchDialog({
@@ -313,6 +264,7 @@ function FaceSearchDialog({
 // ─── Main Component ───────────────────────────────────────────────────────────
 export function GalleryScreen({ event, initialData, initialAlbums }: GalleryScreenProps) {
   const router = useRouter();
+  const prefersReducedMotion = useReducedMotion();
 
   const [activeAlbum, setActiveAlbum] = React.useState<string | null>(null);
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -473,41 +425,75 @@ export function GalleryScreen({ event, initialData, initialAlbums }: GalleryScre
         </div>
       </header>
 
-      {/* Masonry Gallery */}
-      <main className="flex-1 p-1 columns-2 lg:columns-3 gap-[3px] space-y-0">
-        {displayMedia.map((media, i) => {
-          const isHighlighted = faceHighlightIds.length > 0 && faceHighlightIds.includes(media.id);
-          return (
-            <div
-              key={media.id}
-              className="break-inside-avoid mb-[3px] relative cursor-pointer"
-              onClick={() => setLightboxIndex(i)}
-            >
-              <PhotoThumbnail
-                src={media.thumbnailUrl || media.url}
-                alt={`Photo ${i + 1}`}
-                status={media.status as "uploading" | "processing" | "ready" | "error" | "rejected"}
-                className={cn(
-                  "w-full aspect-auto",
-                  isHighlighted && "ring-2 ring-brand-primary ring-offset-1"
-                )}
-              />
-              {/* Video overlay */}
-              {media.type === "video" && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="bg-black/50 rounded-full p-2">
-                    <Play className="h-5 w-5 text-white fill-white" />
-                  </div>
-                  {media.duration && (
-                    <span className="absolute bottom-2 right-2 text-[10px] font-bold text-white bg-black/60 px-1.5 py-0.5 rounded">
-                      {Math.floor(media.duration / 60)}:{String(media.duration % 60).padStart(2, "0")}
-                    </span>
-                  )}
-                </div>
-              )}
+      {/* Masonry Gallery — with empty states */}
+      <main
+        className="flex-1 p-1 columns-2 lg:columns-3 gap-[3px] space-y-0"
+        aria-label={`Gallery — ${displayMedia.length} photos`}
+      >
+        {displayMedia.length === 0 && debouncedSearch ? (
+          <div className="col-span-full flex flex-col items-center justify-center py-24 gap-4 text-center px-6">
+            <div className="h-14 w-14 rounded-full bg-surface-secondary flex items-center justify-center">
+              <Search className="h-7 w-7 text-text-muted" />
             </div>
-          );
-        })}
+            <div>
+              <p className="font-semibold text-text-primary">No photos match &ldquo;{debouncedSearch}&rdquo;</p>
+              <p className="text-sm text-text-secondary mt-1">Try a different search term.</p>
+            </div>
+          </div>
+        ) : displayMedia.length === 0 ? (
+          <div className="col-span-full flex flex-col items-center justify-center py-24 gap-4 text-center px-6">
+            <div className="h-14 w-14 rounded-full bg-brand-primary-subtle flex items-center justify-center">
+              <Camera className="h-7 w-7 text-brand-primary" />
+            </div>
+            <div>
+              <p className="font-semibold text-text-primary">No photos yet</p>
+              <p className="text-sm text-text-secondary mt-1">Share the QR code with your guests to start collecting memories.</p>
+            </div>
+          </div>
+        ) : (
+          displayMedia.map((media, i) => {
+            const isHighlighted = faceHighlightIds.length > 0 && faceHighlightIds.includes(media.id);
+            return (
+              <div
+                key={media.id}
+                role="button"
+                tabIndex={0}
+                className="break-inside-avoid mb-[3px] relative cursor-pointer"
+                onClick={() => setLightboxIndex(i)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setLightboxIndex(i);
+                  }
+                }}
+                aria-label={`${media.type === "video" ? "Video" : "Photo"} ${i + 1} of ${displayMedia.length}`}
+              >
+                <PhotoThumbnail
+                  src={media.thumbnailUrl || media.url}
+                  alt={`Event photo ${i + 1}`}
+                  status={media.status as "uploading" | "processing" | "ready" | "error" | "rejected"}
+                  className={cn(
+                    "w-full aspect-auto",
+                    isHighlighted && "ring-2 ring-brand-primary ring-offset-1"
+                  )}
+                />
+                {/* Video overlay */}
+                {media.type === "video" && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="bg-black/50 rounded-full p-2">
+                      <Play className="h-5 w-5 text-white fill-white" aria-hidden="true" />
+                    </div>
+                    {media.duration && (
+                      <span className="absolute bottom-2 right-2 text-[10px] font-bold text-white bg-black/60 px-1.5 py-0.5 rounded">
+                        {Math.floor(media.duration / 60)}:{String(media.duration % 60).padStart(2, "0")}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })
+        )}
       </main>
 
       {/* Infinite scroll sentinel */}
@@ -536,7 +522,7 @@ export function GalleryScreen({ event, initialData, initialAlbums }: GalleryScre
       {/* Slideshow */}
       <AnimatePresence>
         {showSlideshow && (
-          <Slideshow media={allMedia} onClose={() => setShowSlideshow(false)} />
+          <SlideshowViewer media={allMedia} onClose={() => setShowSlideshow(false)} />
         )}
       </AnimatePresence>
 

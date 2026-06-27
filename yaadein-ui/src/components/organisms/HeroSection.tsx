@@ -67,7 +67,7 @@ export function HeroSection({ className }: HeroSectionProps) {
 
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
               <Button variant="primary" size="lg" asChild>
-                <Link href="/create">{ctaPrimary}</Link>
+                <Link href="dashboard/create-event">{ctaPrimary}</Link>
               </Button>
               <Button variant="ghost" size="lg" asChild>
                 <Link href="/demo">{ctaGhost}</Link>

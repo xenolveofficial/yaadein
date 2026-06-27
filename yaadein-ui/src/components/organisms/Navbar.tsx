@@ -67,7 +67,7 @@ export function Navbar({ className }: NavbarProps) {
         {/* Desktop CTA */}
         <div className="hidden md:block">
           <Button variant="primary" size="sm" asChild>
-            <Link href="/create">{cta}</Link>
+            <Link href="dashboard/create-event">{cta}</Link>
           </Button>
         </div>
 
@@ -114,7 +114,7 @@ export function Navbar({ className }: NavbarProps) {
 
               <div className="pt-6 border-t border-border">
                 <Button variant="primary" fullWidth asChild>
-                  <Link href="/create" onClick={() => setOpen(false)}>{cta}</Link>
+                  <Link href="dashboard/create-event" onClick={() => setOpen(false)}>{cta}</Link>
                 </Button>
               </div>
             </Dialog.Content>
