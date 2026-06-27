@@ -1,7 +1,7 @@
-# AGENTS.md — Memora Project Rules
+# AGENTS.md — Yaadein Project Rules
 
 ## Product
-Memora is an AI-powered event photo and video sharing platform built for
+Yaadein is an AI-powered event photo and video sharing platform built for
 Indian weddings and celebrations. It is mobile-first and engineered for
 poor venue wifi. The primary stack is Next.js 15 App Router, TypeScript
 strict mode, Tailwind CSS v4, Shadcn/ui (Radix primitives), Framer Motion,
