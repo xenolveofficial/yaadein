@@ -1,11 +1,15 @@
 export const queryKeys = {
-  events: ["events"] as const,
-  event: (id: string) => ["event", id] as const,
-  gallery: (eventId: string) => ["gallery", eventId] as const,
-  media: (mediaId: string) => ["media", mediaId] as const,
-  presignedUrls: ["presignedUrls"] as const,
-  userProfile: ["userProfile"] as const,
-  subscription: ["subscription"] as const,
-} as const;
-
-export type QueryKeys = typeof queryKeys;
+  events: {
+    all: () => ['events'] as const,
+    detail: (id: string) => ['events', id] as const,
+    qr: (id: string) => ['events', id, 'qr'] as const,
+  },
+  gallery: {
+    list: (eventId: string, params?: { albumId?: string; cursor?: string; search?: string; limit?: number }) => 
+      ['gallery', eventId, params] as const,
+    albums: (eventId: string) => ['gallery', eventId, 'albums'] as const,
+  },
+  profile: {
+    current: () => ['profile', 'current'] as const,
+  },
+};
