@@ -1,10 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import dynamic from "next/dynamic";
-
-const CreateEventWizard = dynamic(() => import("@/components/organisms/CreateEventWizard").then((mod) => mod.CreateEventWizard), {
-  ssr: false,
-});
+import { CreateEventClient } from "./CreateEventClient";
 
 export const metadata = {
   title: "Create Event | YAADEIN",
@@ -19,9 +15,5 @@ export default async function CreateEventPage() {
     redirect("/login");
   }
 
-  return (
-    <div className="min-h-screen bg-surface-secondary py-12 px-4">
-      <CreateEventWizard />
-    </div>
-  );
+  return <CreateEventClient />;
 }
