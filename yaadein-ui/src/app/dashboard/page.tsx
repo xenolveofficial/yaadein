@@ -24,6 +24,7 @@ async function EventGrid({ token }: { token: string | undefined }) {
   } catch {
     events = [];
   }
+  
 
   if (events.length === 0) {
     return (
@@ -59,7 +60,6 @@ export default async function DashboardPage() {
   const supabase = await createClient();
   const { data: { session } } = await supabase.auth.getSession();
   const token = session?.access_token;
-
   return (
     <main className="p-6 md:p-8 max-w-7xl mx-auto flex flex-col gap-8">
       {/* Page Header */}
@@ -75,6 +75,7 @@ export default async function DashboardPage() {
         <Button variant="primary" asChild leftIcon={<Plus className="h-4 w-4" aria-hidden="true" />}>
           <Link href="/dashboard/create-event">Create Event</Link>
         </Button>
+      
       </div>
 
       <ErrorBoundary>

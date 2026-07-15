@@ -7,6 +7,7 @@ const CreateEventWizard = dynamic(
   { ssr: false }
 );
 
+
 export function CreateEventClient() {
   return (
     <div className="min-h-screen bg-surface-secondary py-12 px-4">
@@ -15,4 +16,4 @@ export function CreateEventClient() {
   );
 }
 
-// Made with Bob
+

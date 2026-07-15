@@ -13,9 +13,9 @@ export function PricingTabs() {
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col items-center">
-      {/* Tab Switcher & Toggle Container */}
+      {/* Tab Switcher & Toggle Container  implement later*/}
       <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 mb-12 border-b border-border pb-6">
-        <Tabs
+        {/* <Tabs
           defaultValue="host"
           value={activeTab}
           onValueChange={setActiveTab}
@@ -35,9 +35,9 @@ export function PricingTabs() {
               Photographer
             </TabsTrigger>
           </TabsList>
-        </Tabs>
+        </Tabs> */}
 
-        {activeTab === "host" && (
+        {/* {activeTab === "host" && (
           <div className="flex items-center gap-3">
             <span className="text-sm font-semibold text-text-secondary">
               Show infra cost basis
@@ -48,7 +48,7 @@ export function PricingTabs() {
               aria-label="Toggle infra cost visibility"
             />
           </div>
-        )}
+        )} */}
       </div>
 
       {/* Plans Content Grid */}
