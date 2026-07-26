@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/atoms/Button"
 import { landingContent } from "@/content/landing.content"
@@ -10,16 +11,6 @@ import * as Dialog from "@radix-ui/react-dialog"
 
 export interface NavbarProps {
   className?: string
-}
-
-function LotusIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M8 14 C8 14 4 10 4 7 C4 4.8 5.8 3 8 3 C10.2 3 12 4.8 12 7 C12 10 8 14 8 14Z" fill="currentColor" opacity="0.9" />
-      <path d="M8 3 C8 3 4 2 2 5 C1 7 3 9.5 6 10" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.7" />
-      <path d="M8 3 C8 3 12 2 14 5 C15 7 13 9.5 10 10" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.7" />
-    </svg>
-  )
 }
 
 export function Navbar({ className }: NavbarProps) {
@@ -43,11 +34,15 @@ export function Navbar({ className }: NavbarProps) {
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8" aria-label="Main navigation">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-1.5 text-text-primary hover:opacity-80 transition-opacity">
-          <span className="text-brand-primary">
-            <LotusIcon />
-          </span>
-          <span className="font-body font-bold text-lg tracking-tight">{logo}</span>
+        <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+          <Image
+            src="/assets/yaadein-logo.png"
+            alt="Yaadein"
+            width={120}
+            height={40}
+            className="h-20 w-auto"
+            priority
+          />
         </Link>
 
         {/* Desktop nav */}
@@ -87,9 +82,14 @@ export function Navbar({ className }: NavbarProps) {
             <Dialog.Content className="fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-surface-primary p-6 shadow-elevated flex flex-col">
               <Dialog.Title className="sr-only">Navigation menu</Dialog.Title>
               <div className="flex items-center justify-between mb-8">
-                <Link href="/" className="flex items-center gap-1.5 text-text-primary" onClick={() => setOpen(false)}>
-                  <span className="text-brand-primary"><LotusIcon /></span>
-                  <span className="font-body font-bold text-lg">{logo}</span>
+                <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
+                  <Image
+                    src="/assets/yaadein-logo.png"
+                    alt="Yaadein"
+                    width={120}
+                    height={40}
+                    className="h-20 w-auto"
+                  />
                 </Link>
                 <Dialog.Close asChild>
                   <button className="text-text-muted hover:text-text-primary transition-colors p-1" aria-label="Close menu">

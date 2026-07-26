@@ -17,6 +17,9 @@ const realEventsService = {
   listEvents: (options?: RequestOptions) =>
     api.get<Event[]>('/events', options),
     
+  updateEvent: (eventId: string, payload: Partial<Event>, options?: RequestOptions) =>
+    api.patch<Event>(`/events/${eventId}`, payload, options),
+    
   getEventQR: (eventId: string, options?: RequestOptions) =>
     api.get<{ qrUrl: string; shareUrl: string; whatsappUrl: string }>(`/events/${eventId}/qr`, options),
 };

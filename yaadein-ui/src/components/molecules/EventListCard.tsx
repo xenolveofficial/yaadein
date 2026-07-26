@@ -29,7 +29,7 @@ export function EventListCard({ event, className }: EventListCardProps) {
   // Map event status to badge variants
   const statusVariant = 
     event.status === "active" ? "live" : 
-    event.status === "expired" ? "error" : "default";
+    event.status === "expired" || "pending" ? "error" : "default";
 
   return (
     <Card className={className}>
@@ -90,14 +90,36 @@ export function EventListCard({ event, className }: EventListCardProps) {
               <Hourglass className="h-3.5 w-3.5 shrink-0" />
               <span>Expires: {formattedExpiry}</span>
             </div>
-            
-            <Link
+            {
+              event.status === 'active' ?
+              (<Link
               href={`/dashboard/event/${event.id}`}
               className="flex items-center gap-1 font-bold text-brand-primary hover:text-brand-primary-hover hover:underline transition-all"
             >
               <span>Manage</span>
               <ArrowRight className="h-3.5 w-3.5" />
+            </Link>)
+            : event.status === 'pending' ?
+            (
+              <Link
+              href={`/dashboard/create-event?eventId=${event.id}`}
+              className="flex items-center gap-1 font-bold text-brand-primary hover:text-brand-primary-hover hover:underline transition-all"
+            >
+              <span>Continue</span>
+              <ArrowRight className="h-3.5 w-3.5" />
             </Link>
+            )
+            : 
+            (
+            <Link
+              href={`/dashboard/event/${event.id}`}
+              className="flex items-center gap-1 font-bold text-brand-primary hover:text-brand-primary-hover hover:underline transition-all"
+            >
+              <span>Renew</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+            )
+            }
           </div>
         </div>
       </CardContent>

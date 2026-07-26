@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { CalendarDays, Plus, Settings, CreditCard, LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -43,13 +44,15 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
   return (
     <aside className="w-60 bg-surface-primary border-r border-border h-screen flex flex-col shrink-0">
       {/* Brand Logo */}
-      <div className="p-6 border-b border-border flex items-center gap-2">
-        <svg width="20" height="20" viewBox="0 0 16 16" fill="none" className="text-brand-primary">
-          <path d="M8 14 C8 14 4 10 4 7 C4 4.8 5.8 3 8 3 C10.2 3 12 4.8 12 7 C12 10 8 14 8 14Z" fill="currentColor" opacity="0.9" />
-          <path d="M8 3 C8 3 4 2 2 5 C1 7 3 9.5 6 10" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.7" />
-          <path d="M8 3 C8 3 12 2 14 5 C15 7 13 9.5 10 10" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.7" />
-        </svg>
-        <span className="font-body font-bold text-base tracking-tight text-text-primary">YAADEIN</span>
+      <div className="p-6 border-b border-border flex items-center justify-center">
+        <Image
+          src="/assets/yaadein-logo.png"
+          alt="Yaadein"
+          width={120}
+          height={40}
+          className="h-20 w-auto"
+          priority
+        />
       </div>
 
       {/* Nav Links */}

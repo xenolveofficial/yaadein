@@ -1,12 +1,12 @@
 export type EventType = 'wedding' | 'birthday' | 'graduation' | 'corporate' | 'engagement' | 'other';
-export type EventStatus = 'active' | 'expired' | 'archived';
+export type EventStatus = 'active' | 'expired' | 'archived' | 'pending';
 export type PlanTier = 'starter' | 'basic' | 'premium' | 'elite';
 
 export interface Event {
   id: string;
   slug: string;
   name: string;
-  type: EventType;
+  type?: EventType;
   date: string; // ISO string
   city: string;
   coverPhotoUrl?: string;
@@ -23,7 +23,7 @@ export interface Event {
 
 export interface CreateEventPayload {
   name: string;
-  type: EventType;
+  type?: EventType;
   date: string;
   city: string;
   coverPhotoUrl?: string;

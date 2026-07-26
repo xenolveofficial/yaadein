@@ -2,8 +2,16 @@ import { z } from 'zod';
 
 export const step1Schema = z.object({
   name: z.string().min(3, "Event name must be at least 3 characters").max(100),
-  type: z.enum(['wedding', 'birthday', 'graduation', 'corporate', 'engagement', 'other']),
-  date: z.string().datetime({ message: "Invalid date format" }),
+  type: z.enum(['wedding', 'birthday', 'graduation', 'corporate', 'engagement', 'other']).optional(),
+  date: z.string().datetime({ message: "Invalid date format" }).refine(
+    (dateStr) => {
+      const selectedDate = new Date(dateStr);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Reset time to start of day
+      return selectedDate >= today;
+    },
+    { message: "Event date cannot be in the past" }
+  ),
   city: z.string().min(2, "City name is required"),
 });
 

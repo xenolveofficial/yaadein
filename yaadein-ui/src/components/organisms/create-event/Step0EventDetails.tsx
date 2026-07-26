@@ -18,6 +18,10 @@ import { cn } from "@/lib/utils";
 
 export function Step0EventDetails() {
   const { control } = useFormContext<CreateEventFormData>();
+  
+  // Get today's date at midnight for comparison
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   return (
     <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -29,7 +33,9 @@ export function Step0EventDetails() {
       />
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-text-primary">Event Type</label>
+        <label className="text-sm font-medium text-text-primary">
+          Event Type <span className="text-text-muted font-normal">(Optional)</span>
+        </label>
         <Controller
           name="type"
           control={control}
@@ -72,6 +78,8 @@ export function Step0EventDetails() {
                     mode="single"
                     selected={field.value ? new Date(field.value) : undefined}
                     onSelect={(date) => field.onChange(date?.toISOString())}
+                    disabled={(date) => date < today}
+                    fromDate={today}
                   />
                 </PopoverContent>
               </Popover>

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -119,13 +120,15 @@ export default function SignupPage() {
     <main className="min-h-screen bg-surface-secondary flex items-center justify-center p-4">
       <div className="w-full max-w-md flex flex-col gap-6">
         {/* Logo / Branding */}
-        <div className="flex items-center justify-center gap-2">
-          <svg width="24" height="24" viewBox="0 0 16 16" fill="none" className="text-brand-primary">
-            <path d="M8 14 C8 14 4 10 4 7 C4 4.8 5.8 3 8 3 C10.2 3 12 4.8 12 7 C12 10 8 14 8 14Z" fill="currentColor" opacity="0.9" />
-            <path d="M8 3 C8 3 4 2 2 5 C1 7 3 9.5 6 10" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.7" />
-            <path d="M8 3 C8 3 12 2 14 5 C15 7 13 9.5 10 10" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.7" />
-          </svg>
-          <span className="font-body font-bold text-xl tracking-tight text-text-primary">YAADEIN</span>
+        <div className="flex items-center justify-center">
+          <Image
+            src="/assets/yaadein-logo.png"
+            alt="Yaadein"
+            width={150}
+            height={50}
+            className="h-20 w-auto"
+            priority
+          />
         </div>
 
         <Card className="border border-border bg-surface-primary shadow-card">

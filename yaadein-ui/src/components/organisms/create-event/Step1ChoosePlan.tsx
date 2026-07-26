@@ -139,7 +139,7 @@ export function Step1ChoosePlan({
           const result = await verifyResponse.json();
           
           if (result.success) {
-            onPaymentSuccess();
+            await onPaymentSuccess();
             setLoading(false);
           } else {
             toast.error("Payment verification failed");

@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { StepIndicator } from "@/components/molecules/StepIndicator";
@@ -20,11 +21,15 @@ import { Step3ShareQR } from "./create-event/Step3ShareQR";
 const STEPS = ["Details", "Plan", "Customize", "Share"];
 
 export function CreateEventWizard() {
+  const searchParams = useSearchParams();
+  const eventIdFromUrl = searchParams.get('eventId');
+  
   const [currentStep, setCurrentStep] = React.useState(0);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [createdEventId, setCreatedEventId] = React.useState<string | null>(null);
   const [paymentCompleted, setPaymentCompleted] = React.useState(false);
   const [userId, setUserId] = React.useState<string | null>(null);
+  const [isLoadingEvent, setIsLoadingEvent] = React.useState(false);
 
   const methods = useForm<CreateEventFormData>({
     resolver: zodResolver(createEventSchema as any),
@@ -54,14 +59,83 @@ export function CreateEventWizard() {
     getUser();
   }, []);
 
+  // Load existing event if eventId is in URL
+  React.useEffect(() => {
+    const loadExistingEvent = async () => {
+      if (!eventIdFromUrl) return;
+      
+      setIsLoadingEvent(true);
+      try {
+        console.log('🔍 Loading event from URL:', eventIdFromUrl);
+        const event = await eventsService.getEvent(eventIdFromUrl);
+        
+        console.log('📦 Event loaded:', event);
+        
+        // Only pre-fill if event status is "pending"
+        if (event.status === 'pending') {
+          console.log('✅ Event status is pending, pre-filling form');
+          
+          // Check if event date is in the past
+          const eventDate = new Date(event.date);
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          
+          const isPastDate = eventDate < today;
+          
+          // Pre-fill form with event data
+          methods.reset({
+            name: event.name,
+            type: event.type,
+            date: event.date,
+            city: event.city,
+            plan: event.plan,
+            galleryTitle: methods.getValues('galleryTitle') || "",
+            colorTheme: methods.getValues('colorTheme') || "ivory",
+            enableFaceSearch: event.enableFaceSearch || false,
+          });
+          
+          // Set event ID
+          setCreatedEventId(event.id);
+          
+          if (isPastDate) {
+            // Keep user on Step 0 if date is in the past
+            setCurrentStep(0);
+            toast.error('Event date is in the past. Please update the date to continue.');
+            console.log('⚠️ Event date is in the past, staying on Step 0');
+          } else {
+            // Navigate to Step 1 if date is valid
+            setCurrentStep(1);
+            toast.success('Event loaded! Please complete payment to continue.');
+          }
+        } else {
+          console.log('⚠️ Event status is not pending:', event.status);
+          toast.info(`Event is already ${event.status}. Starting fresh.`);
+        }
+      } catch (error) {
+        console.error('❌ Failed to load event:', error);
+        toast.error('Failed to load event. Starting fresh.');
+      } finally {
+        setIsLoadingEvent(false);
+      }
+    };
+    
+    loadExistingEvent();
+  }, [eventIdFromUrl, methods]);
+
   const handleNext = async () => {
     let isValid = false;
 
     if (currentStep === 0) {
-      isValid = await trigger(["name", "type", "date", "city"]);
+      isValid = await trigger(["name", "date", "city"]);
       if (isValid) {
-        // Create event after step 0 validation
-        await createEventBeforePayment();
+        // Only create event if it doesn't already exist
+        if (!createdEventId) {
+          await createEventBeforePayment();
+        } else {
+          // Event already exists, just move to next step
+          console.log('✅ Event already exists, skipping creation');
+          setCurrentStep(1);
+        }
         return;
       }
     } else if (currentStep === 1) {
@@ -109,9 +183,23 @@ export function CreateEventWizard() {
     }
   };
 
-  const handlePaymentSuccess = () => {
-    setPaymentCompleted(true);
-    toast.success("Payment successful! You can now continue.");
+  const handlePaymentSuccess = async () => {
+    try {
+      // Update event status to active after successful payment
+      if (createdEventId) {
+        console.log('💳 Payment successful, updating event status to active');
+        await eventsService.updateEvent(createdEventId, { status: 'active' });
+        console.log('✅ Event status updated to active');
+      }
+      
+      setPaymentCompleted(true);
+      toast.success("Payment successful! You can now continue.");
+    } catch (error) {
+      console.error('❌ Failed to update event status:', error);
+      // Still mark payment as completed even if status update fails
+      setPaymentCompleted(true);
+      toast.success("Payment successful! You can now continue.");
+    }
   };
 
   const handleBack = () => {
@@ -130,6 +218,20 @@ export function CreateEventWizard() {
       setIsSubmitting(false);
     }
   };
+
+  // Show loading state while fetching event from URL
+  if (isLoadingEvent) {
+    return (
+      <div className="w-full max-w-3xl mx-auto py-8 px-4 sm:px-6">
+        <div className="bg-surface-primary rounded-xl border border-border shadow-card p-6 md:p-8">
+          <div className="flex flex-col items-center justify-center py-12 gap-4">
+            <Loader2 className="h-8 w-8 animate-spin text-brand-primary" />
+            <p className="text-sm text-text-secondary">Loading event details...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-3xl mx-auto py-8 px-4 sm:px-6">
