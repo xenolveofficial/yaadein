@@ -18,7 +18,7 @@ export function Footer({ className }: FooterProps) {
           {/* Brand col */}
           <div className="col-span-2 md:col-span-1 flex flex-col gap-4">
             <Image
-              src="/assets/yaadein-logo.png"
+              src="/assets/Yaadein-logo.png"
               alt="Yaadein"
               width={120}
               height={40}

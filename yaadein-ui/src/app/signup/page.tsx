@@ -122,7 +122,7 @@ export default function SignupPage() {
         {/* Logo / Branding */}
         <div className="flex items-center justify-center">
           <Image
-            src="/assets/yaadein-logo.png"
+            src="/assets/Yaadein-logo.png"
             alt="Yaadein"
             width={150}
             height={50}

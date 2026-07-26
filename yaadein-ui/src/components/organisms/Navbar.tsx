@@ -36,7 +36,7 @@ export function Navbar({ className }: NavbarProps) {
         {/* Logo */}
         <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
           <Image
-            src="/assets/yaadein-logo.png"
+            src="/assets/Yaadein-logo.png"
             alt="Yaadein"
             width={120}
             height={40}
@@ -84,7 +84,7 @@ export function Navbar({ className }: NavbarProps) {
               <div className="flex items-center justify-between mb-8">
                 <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
                   <Image
-                    src="/assets/yaadein-logo.png"
+                    src="/assets/Yaadein-logo.png"
                     alt="Yaadein"
                     width={120}
                     height={40}

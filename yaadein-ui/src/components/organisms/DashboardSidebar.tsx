@@ -46,7 +46,7 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       {/* Brand Logo */}
       <div className="p-6 border-b border-border flex items-center justify-center">
         <Image
-          src="/assets/yaadein-logo.png"
+          src="/assets/Yaadein-logo.png"
           alt="Yaadein"
           width={120}
           height={40}
