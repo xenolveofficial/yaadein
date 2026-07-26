@@ -226,6 +226,20 @@ export const mockEventsService = {
     console.log('✅ MOCK: QR generated');
     return mockQR;
   },
+  
+  authenticateGuest: async (eventId: string, pin: string): Promise<{ success: boolean; message?: string }> => {
+    console.log('🔧 MOCK: Authenticating guest for event:', eventId, 'with PIN:', pin);
+    await delay(600);
+    
+    // For development, accept any 4-digit PIN
+    if (pin.length === 4 && /^\d{4}$/.test(pin)) {
+      console.log('✅ MOCK: Guest authenticated successfully');
+      return { success: true };
+    }
+    
+    console.log('❌ MOCK: Authentication failed - invalid PIN format');
+    return { success: false, message: 'Invalid PIN format. Please enter a 4-digit PIN.' };
+  },
 };
 
 // Made with Bob

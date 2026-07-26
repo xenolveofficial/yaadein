@@ -22,6 +22,9 @@ const realEventsService = {
     
   getEventQR: (eventId: string, options?: RequestOptions) =>
     api.get<{ qrUrl: string; shareUrl: string; whatsappUrl: string }>(`/events/${eventId}/qr`, options),
+    
+  authenticateGuest: (eventId: string, pin: string, options?: RequestOptions) =>
+    api.post<{ success: boolean; message?: string }>(`/events/${eventId}/authenticate`, { pin }, options),
 };
 
 // Export the appropriate service based on environment

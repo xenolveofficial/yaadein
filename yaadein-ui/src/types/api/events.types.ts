@@ -19,6 +19,7 @@ export interface Event {
   createdAt: string;
   enableFaceSearch?: boolean;
   shareUrl?: string;
+  guestPin?: string;
 }
 
 export interface CreateEventPayload {
@@ -28,4 +29,5 @@ export interface CreateEventPayload {
   city: string;
   coverPhotoUrl?: string;
   plan: PlanTier;
+  guestPin?: string;
 }

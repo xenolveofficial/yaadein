@@ -473,7 +473,7 @@ export function GalleryScreen({ event, initialData, initialAlbums }: GalleryScre
                   alt={`Event photo ${i + 1}`}
                   status={media.status as "uploading" | "processing" | "ready" | "error" | "rejected"}
                   className={cn(
-                    "w-full aspect-auto",
+                    "w-full",
                     isHighlighted && "ring-2 ring-brand-primary ring-offset-1"
                   )}
                 />

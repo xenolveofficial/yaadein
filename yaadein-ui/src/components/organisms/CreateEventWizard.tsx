@@ -40,6 +40,7 @@ export function CreateEventWizard() {
       galleryTitle: "",
       colorTheme: "ivory",
       enableFaceSearch: false,
+      guestPin: "",
     },
     mode: "onChange",
   });
@@ -92,6 +93,7 @@ export function CreateEventWizard() {
             galleryTitle: methods.getValues('galleryTitle') || "",
             colorTheme: methods.getValues('colorTheme') || "ivory",
             enableFaceSearch: event.enableFaceSearch || false,
+            guestPin: event.guestPin || "",
           });
           
           // Set event ID
@@ -149,7 +151,7 @@ export function CreateEventWizard() {
       }
       
     } else if (currentStep === 2) {
-      isValid = await trigger(["galleryTitle", "colorTheme", "enableFaceSearch"]);
+      isValid = await trigger(["galleryTitle", "colorTheme", "enableFaceSearch", "guestPin"]);
       if (isValid) {
         handleSubmit(onSubmit)();
       }
@@ -209,7 +211,17 @@ export function CreateEventWizard() {
   const onSubmit = async (data: CreateEventFormData) => {
     try {
       setIsSubmitting(true);
-      // Event already created, just move to share step
+      
+      // Update event with gallery customization details including guestPin
+      if (createdEventId) {
+        await eventsService.updateEvent(createdEventId, {
+          guestPin: data.guestPin,
+          enableFaceSearch: data.enableFaceSearch,
+        });
+        console.log('✅ Event updated with PIN and customization settings');
+      }
+      
+      // Move to share step
       setCurrentStep(3);
     } catch (error) {
       console.error(error);

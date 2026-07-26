@@ -19,9 +19,10 @@ const PhotoThumbnail = dynamic(() => import("@/components/molecules/PhotoThumbna
 
 interface GuestUploadScreenProps {
   event: Event;
+  guestName?: string;
 }
 
-export function GuestUploadScreen({ event }: GuestUploadScreenProps) {
+export function GuestUploadScreen({ event, guestName }: GuestUploadScreenProps) {
   const router = useRouter();
 
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
@@ -114,9 +115,16 @@ export function GuestUploadScreen({ event }: GuestUploadScreenProps) {
 
       {/* Body section */}
       <div className="flex-1 bg-surface-primary rounded-t-3xl -mt-6 relative z-10 p-6 flex flex-col gap-6 shadow-[-4px_0_24px_rgba(0,0,0,0.1)]">
-        <h3 className="font-display font-semibold text-xl text-text-primary">
-          Add your photos to {event.name}
-        </h3>
+        <div>
+          <h3 className="font-display font-semibold text-xl text-text-primary">
+            Add your photos to {event.name}
+          </h3>
+          {guestName && (
+            <p className="text-sm text-text-secondary mt-1">
+              Welcome, <span className="font-medium text-text-primary">{guestName}</span>!
+            </p>
+          )}
+        </div>
 
         {/* ConsentBanner */}
         {event.enableFaceSearch && !isUploading && (
@@ -207,6 +215,14 @@ export function GuestUploadScreen({ event }: GuestUploadScreenProps) {
               : isUploading
                 ? `Uploading ${completedCount} of ${selectedFiles.length}...`
                 : "Upload my photos \u2192"}
+          </Button>
+          <Button
+            variant="secondary"
+            fullWidth
+            onClick={() => router.push(`/e/${event.id}/gallery`)}
+            disabled={isUploading && !allCompleted}
+          >
+            View Gallery
           </Button>
           <p className="text-xs text-text-muted text-center font-medium">
             No account needed &middot; Original quality preserved &middot; &#128274; Private to guests only

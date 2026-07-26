@@ -56,6 +56,52 @@ export function Step2CustomizeGallery() {
       />
 
       <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-text-primary">
+          Guest Upload PIN
+          <span className="text-text-muted font-normal ml-2">(4 digits)</span>
+        </label>
+        <Controller
+          name="guestPin"
+          control={control}
+          render={({ field, fieldState }) => (
+            <>
+              <input
+                type="number"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={4}
+                placeholder="Enter 4-digit PIN"
+                value={field.value || ''}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, '').slice(0, 4);
+                  field.onChange(value);
+                }}
+                onBlur={field.onBlur}
+                className={cn(
+                  "w-full px-4 py-2.5 rounded-lg border bg-surface-primary text-text-primary",
+                  "focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent",
+                  "placeholder:text-text-muted transition-all",
+                  fieldState.error ? "border-error" : "border-border"
+                )}
+                aria-invalid={fieldState.error ? "true" : "false"}
+                aria-describedby={fieldState.error ? "guestPin-error" : undefined}
+              />
+              {fieldState.error && (
+                <p id="guestPin-error" className="text-sm text-error mt-1">
+                  {fieldState.error.message}
+                </p>
+              )}
+              {!fieldState.error && field.value && (
+                <p className="text-sm text-text-muted mt-1">
+                  Guests will need this PIN to upload photos
+                </p>
+              )}
+            </>
+          )}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-text-primary">Color Theme</label>
         <Controller
           name="colorTheme"

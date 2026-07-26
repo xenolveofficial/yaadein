@@ -24,6 +24,9 @@ export const step3Schema = z.object({
   galleryTitle: z.string().min(3, "Gallery title must be at least 3 characters"),
   colorTheme: z.enum(['ivory', 'rose', 'sage', 'midnight', 'white']),
   enableFaceSearch: z.boolean(),
+  guestPin: z.string()
+    .length(4, "PIN must be exactly 4 digits")
+    .regex(/^\d{4}$/, "PIN must contain only numbers"),
 });
 
 export const createEventSchema = step1Schema.merge(step2Schema).merge(step3Schema);

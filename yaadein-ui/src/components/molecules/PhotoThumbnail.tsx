@@ -39,7 +39,7 @@ export function PhotoThumbnail({
         className
       )}
     >
-      <Image src={src} alt={alt} fill className="object-cover" />
+      <Image src={src} alt={alt} fill className="object-cover" unoptimized />
 
       {/* Selectable Hover State */}
       {selectable && !isSelected && (
