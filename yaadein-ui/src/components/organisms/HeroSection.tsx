@@ -25,9 +25,9 @@ const itemVariants: Variants = {
 }
 
 const polaroids = [
-  { rotate: "-5deg", top: "10%", left: "-8%", delay: 0.2 },
-  { rotate: "3deg", top: "45%", right: "-10%", delay: 0.4 },
-  { rotate: "-2deg", bottom: "8%", left: "5%", delay: 0.6 },
+  { rotate: "-5deg", top: "10%", left: "-25%", delay: 0.2, image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop" },
+  { rotate: "3deg", top: "45%", right: "-17%", delay: 0.4, image: "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&h=300&fit=crop" },
+  { rotate: "-2deg", bottom: "8%", left: "-15%", delay: 0.6, image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=300&fit=crop" },
 ]
 
 export function HeroSection({ className }: HeroSectionProps) {
@@ -98,11 +98,22 @@ export function HeroSection({ className }: HeroSectionProps) {
               <p className="font-body text-[11px] text-text-muted text-center">Scan ↑ and share your moments</p>
               {/* Mock photo grid */}
               <div className="grid grid-cols-3 gap-1.5 w-full mt-2">
-                {Array.from({ length: 9 }).map((_, i) => (
-                  <div
+                {[
+                  "https://images.unsplash.com/photo-1519741497674-611481863552?w=200&h=200&fit=crop",
+                  "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=200&h=200&fit=crop",
+                  "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=200&h=200&fit=crop",
+                  "https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=200&h=200&fit=crop",
+                  "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=200&h=200&fit=crop",
+                  "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=200&h=200&fit=crop",
+                  "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=200&h=200&fit=crop",
+                  "https://images.unsplash.com/photo-1529636798458-92182e662485?w=200&h=200&fit=crop",
+                  "https://images.unsplash.com/photo-1460978812857-470ed1c77af0?w=200&h=200&fit=crop",
+                ].map((img, i) => (
+                  <img
                     key={i}
-                    className="aspect-square rounded-sm bg-surface-primary"
-                    style={{ opacity: 0.5 + i * 0.05 }}
+                    src={img}
+                    alt="Wedding photo"
+                    className="aspect-square rounded-sm object-cover"
                   />
                 ))}
               </div>
@@ -130,7 +141,11 @@ export function HeroSection({ className }: HeroSectionProps) {
                   zIndex: 5 + i,
                 }}
               >
-                <div className="w-full h-[72px] rounded-[2px] bg-surface-secondary" />
+                <img
+                  src={p.image}
+                  alt="Wedding moment"
+                  className="w-full h-[72px] rounded-[2px] object-cover"
+                />
               </motion.div>
             ))}
           </div>

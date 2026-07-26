@@ -79,7 +79,6 @@ export function Step0EventDetails() {
                     selected={field.value ? new Date(field.value) : undefined}
                     onSelect={(date) => field.onChange(date?.toISOString())}
                     disabled={(date) => date < today}
-                    fromDate={today}
                   />
                 </PopoverContent>
               </Popover>

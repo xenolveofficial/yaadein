@@ -76,8 +76,22 @@ export function FeatureSection({ className }: FeatureSectionProps) {
         ))}
       </div>
       <div className="grid grid-cols-4 gap-1.5">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="aspect-square rounded-sm bg-border" />
+        {[
+          "https://images.unsplash.com/photo-1519741497674-611481863552?w=200&h=200&fit=crop",
+          "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=200&h=200&fit=crop",
+          "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=200&h=200&fit=crop",
+          "https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=200&h=200&fit=crop",
+          "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=200&h=200&fit=crop",
+          "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=200&h=200&fit=crop",
+          "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=200&h=200&fit=crop",
+          "https://images.unsplash.com/photo-1529636798458-92182e662485?w=200&h=200&fit=crop",
+        ].map((img, i) => (
+          <img
+            key={i}
+            src={img}
+            alt="Wedding photo"
+            className="aspect-square rounded-sm object-cover"
+          />
         ))}
       </div>
     </div>,
@@ -87,8 +101,15 @@ export function FeatureSection({ className }: FeatureSectionProps) {
       <div className="flex flex-col gap-2">
         <div className="self-end max-w-[75%] rounded-t-xl rounded-bl-xl bg-[#25D366]/20 border border-[#25D366]/30 p-3">
           <p className="font-body text-sm text-text-primary">📸 Check out your photos from Priya's wedding!</p>
-          <div className="mt-2 h-24 w-full rounded-md bg-surface-secondary border border-border flex items-center justify-center">
-            <span className="text-xs text-text-muted font-body">Yaadein.app/priya-wedding-2024</span>
+          <div className="mt-2 h-24 w-full rounded-md overflow-hidden relative">
+            <img
+              src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=200&fit=crop"
+              alt="Wedding preview"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-2">
+              <span className="text-xs text-white font-body">Yaadein.app/priya-wedding-2024</span>
+            </div>
           </div>
         </div>
         <div className="self-start max-w-[75%] rounded-t-xl rounded-br-xl bg-surface-primary border border-border p-3">
