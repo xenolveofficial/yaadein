@@ -15,10 +15,9 @@ import { createClient } from "@/lib/supabase/client";
 // Import steps
 import { Step0EventDetails } from "./create-event/Step0EventDetails";
 import { Step1ChoosePlan } from "./create-event/Step1ChoosePlan";
-import { Step2CustomizeGallery } from "./create-event/Step2CustomizeGallery";
 import { Step3ShareQR } from "./create-event/Step3ShareQR";
 
-const STEPS = ["Details", "Plan", "Customize", "Share"];
+const STEPS = ["Details", "Plan", "Share"];
 
 export function CreateEventWizard() {
   const searchParams = useSearchParams();
@@ -90,7 +89,7 @@ export function CreateEventWizard() {
             date: event.date,
             city: event.city,
             plan: event.plan,
-            galleryTitle: methods.getValues('galleryTitle') || "",
+            galleryTitle: event.name + " Gallery", // Auto-generate from event name
             colorTheme: methods.getValues('colorTheme') || "ivory",
             enableFaceSearch: event.enableFaceSearch || false,
             guestPin: event.guestPin || "",
@@ -128,7 +127,7 @@ export function CreateEventWizard() {
     let isValid = false;
 
     if (currentStep === 0) {
-      isValid = await trigger(["name", "date", "city"]);
+      isValid = await trigger(["name", "date", "city", "galleryTitle", "guestPin"]);
       if (isValid) {
         // Only create event if it doesn't already exist
         if (!createdEventId) {
@@ -146,17 +145,11 @@ export function CreateEventWizard() {
       if (isValid && !paymentCompleted) {
         toast.error("Please complete the payment to continue");
         return;
-      }else if(isValid && paymentCompleted){
-        setCurrentStep((prev) => prev + 1);
-      }
-      
-    } else if (currentStep === 2) {
-      isValid = await trigger(["galleryTitle", "colorTheme", "enableFaceSearch", "guestPin"]);
-      if (isValid) {
-        handleSubmit(onSubmit)();
+      } else if (isValid && paymentCompleted) {
+        // Payment completed, move directly to Share step (index 2)
+        setCurrentStep(2);
       }
     }
-
   };
 
   const createEventBeforePayment = async () => {
@@ -170,6 +163,8 @@ export function CreateEventWizard() {
         date: formData.date,
         city: formData.city,
         plan: formData.plan,
+        guestPin: formData.guestPin,
+        enableFaceSearch: formData.enableFaceSearch,
       };
 
       const event = await eventsService.createEvent(payload);
@@ -209,26 +204,9 @@ export function CreateEventWizard() {
   };
 
   const onSubmit = async (data: CreateEventFormData) => {
-    try {
-      setIsSubmitting(true);
-      
-      // Update event with gallery customization details including guestPin
-      if (createdEventId) {
-        await eventsService.updateEvent(createdEventId, {
-          guestPin: data.guestPin,
-          enableFaceSearch: data.enableFaceSearch,
-        });
-        console.log('✅ Event updated with PIN and customization settings');
-      }
-      
-      // Move to share step
-      setCurrentStep(3);
-    } catch (error) {
-      console.error(error);
-      toast.error(error instanceof Error ? error.message : "Failed to proceed");
-    } finally {
-      setIsSubmitting(false);
-    }
+    // This function is no longer needed as we handle everything in createEventBeforePayment
+    // and payment success, but keeping it for form compatibility
+    console.log('Form submitted:', data);
   };
 
   // Show loading state while fetching event from URL
@@ -247,7 +225,7 @@ export function CreateEventWizard() {
 
   return (
     <div className="w-full max-w-3xl mx-auto py-8 px-4 sm:px-6">
-      {currentStep < 3 && (
+      {currentStep < 2 && (
         <div className="mb-8">
           <StepIndicator steps={STEPS} currentStep={currentStep} />
         </div>
@@ -265,11 +243,10 @@ export function CreateEventWizard() {
               paymentCompleted={paymentCompleted}
             />
           )}
-          {currentStep === 2 && <Step2CustomizeGallery />}
-          {currentStep === 3 && createdEventId && <Step3ShareQR eventId={createdEventId} />}
+          {currentStep === 2 && createdEventId && <Step3ShareQR eventId={createdEventId} />}
         </FormProvider>
 
-        {currentStep < 3 && (
+        {currentStep < 2 && (
           <div className="mt-8 pt-6 border-t border-border flex justify-between items-center gap-4">
             <Button
               variant="ghost"
@@ -285,7 +262,7 @@ export function CreateEventWizard() {
               isLoading={isSubmitting}
               disabled={isSubmitting || (currentStep === 1 && !paymentCompleted)}
             >
-              {currentStep === 2 ? "Finalize Event" : "Continue \u2192"}
+              Continue →
             </Button>
           </div>
         )}

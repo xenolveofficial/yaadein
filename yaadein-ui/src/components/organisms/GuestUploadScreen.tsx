@@ -88,7 +88,7 @@ export function GuestUploadScreen({ event, guestName }: GuestUploadScreenProps) 
   return (
     <main className="min-h-screen bg-surface-secondary flex flex-col relative pb-32">
       {/* Header section (top 35% of screen) */}
-      <div className="relative h-[35vh] min-h-[250px] w-full flex-shrink-0 bg-surface-dark overflow-hidden">
+      {/* <div className="relative h-[35vh] min-h-[250px] w-full flex-shrink-0 bg-surface-dark overflow-hidden">
         {event.coverPhotoUrl && (
           <Image
             src={event.coverPhotoUrl}
@@ -111,10 +111,10 @@ export function GuestUploadScreen({ event, guestName }: GuestUploadScreenProps) 
         <p className="absolute bottom-4 right-4 text-[10px] text-white/50 tracking-wide uppercase font-bold">
           Powered by Yaadein
         </p>
-      </div>
+      </div> */}
 
       {/* Body section */}
-      <div className="flex-1 bg-surface-primary rounded-t-3xl -mt-6 relative z-10 p-6 flex flex-col gap-6 shadow-[-4px_0_24px_rgba(0,0,0,0.1)]">
+      <div className="flex-1 bg-surface-primary rounded-t-3xl mt-6 relative z-10 p-6 flex flex-col gap-6 shadow-[-4px_0_24px_rgba(0,0,0,0.1)]">
         <div>
           <h3 className="font-display font-semibold text-xl text-text-primary">
             Add your photos to {event.name}

@@ -13,6 +13,10 @@ export const step1Schema = z.object({
     { message: "Event date cannot be in the past" }
   ),
   city: z.string().min(2, "City name is required"),
+  galleryTitle: z.string().min(3, "Gallery title must be at least 3 characters"),
+  guestPin: z.string()
+    .length(4, "PIN must be exactly 4 digits")
+    .regex(/^\d{4}$/, "PIN must contain only numbers"),
 });
 
 export const step2Schema = z.object({
@@ -21,12 +25,8 @@ export const step2Schema = z.object({
 
 export const step3Schema = z.object({
   coverPhoto: z.instanceof(File).optional(),
-  galleryTitle: z.string().min(3, "Gallery title must be at least 3 characters"),
-  colorTheme: z.enum(['ivory', 'rose', 'sage', 'midnight', 'white']),
-  enableFaceSearch: z.boolean(),
-  guestPin: z.string()
-    .length(4, "PIN must be exactly 4 digits")
-    .regex(/^\d{4}$/, "PIN must contain only numbers"),
+  colorTheme: z.enum(['ivory', 'rose', 'sage', 'midnight', 'white']).optional(),
+  enableFaceSearch: z.boolean().optional(),
 });
 
 export const createEventSchema = step1Schema.merge(step2Schema).merge(step3Schema);
